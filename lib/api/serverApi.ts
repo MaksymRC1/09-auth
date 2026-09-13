@@ -31,11 +31,10 @@ export const getMe = async (): Promise<User> => {
   return response.data;
 };
 
-export const checkSession = async (): Promise<User | null> => {
+export const checkSession = async (): Promise<any> => {
   try {
     const options = await getAuthHeaders();
-    const response = await api.get<User>('/auth/session', options);
-    return response.data;
+    return await api.get<User>('/auth/session', options);
   } catch (error) {
     return null;
   }

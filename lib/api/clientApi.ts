@@ -50,10 +50,9 @@ export const logout = async (): Promise<void> => {
   await api.post('/auth/logout');
 };
 
-export const checkSession = async (): Promise<User | null> => {
+export const checkSession = async (): Promise<any> => {
   try {
-    const response = await api.get<User>('/auth/session');
-    return response.data;
+    return await api.get<User>('/auth/session');
   } catch (error) {
     return null;
   }
