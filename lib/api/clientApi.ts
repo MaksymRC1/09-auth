@@ -36,12 +36,17 @@ export const deleteNote = async (id: string): Promise<Note> => {
   return response.data;
 };
 
-export const register = async (credentials: Record<string, string>): Promise<User> => {
+export interface AuthCredentials {
+  email: string;
+  password: string;
+}
+
+export const register = async (credentials: AuthCredentials): Promise<User> => {
   const response = await api.post<User>('/auth/register', credentials);
   return response.data;
 };
 
-export const login = async (credentials: Record<string, string>): Promise<User> => {
+export const login = async (credentials: AuthCredentials): Promise<User> => {
   const response = await api.post<User>('/auth/login', credentials);
   return response.data;
 };
@@ -50,7 +55,9 @@ export const logout = async (): Promise<void> => {
   await api.post('/auth/logout');
 };
 
-export const checkSession = async (): Promise<any> => {
+import { AxiosResponse } from 'axios';
+
+export const checkSession = async (): Promise<AxiosResponse<User> | null> => {
   try {
     return await api.get<User>('/auth/session');
   } catch (error) {
@@ -63,7 +70,7 @@ export const getMe = async (): Promise<User> => {
   return response.data;
 };
 
-export const updateMe = async (userUpdate: Partial<User>): Promise<User> => {
+export const updateMe = async (userUpdate: Pick<User, 'username'>): Promise<User> => {
   const response = await api.patch<User>('/users/me', userUpdate);
   return response.data;
 };

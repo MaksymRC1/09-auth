@@ -29,7 +29,7 @@ export async function proxy(request: NextRequest) {
       // Calling our local Next.js proxy which will attempt to refresh the session
       // checkSession() now returns the Axios response
       const sessionRes = await checkSession();
-      if (sessionRes && sessionRes.data && sessionRes.data.success) {
+      if (sessionRes && sessionRes.status === 200) {
         isAuthenticated = true;
         const setCookieHeader = sessionRes.headers['set-cookie'];
         if (setCookieHeader) {
