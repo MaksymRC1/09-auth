@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
+    router.refresh();
+    
     const initAuth = async () => {
       try {
         const response = await checkSession();
@@ -22,7 +24,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       } catch (error) {
         clearIsAuthenticated();
       }
-      router.refresh();
     };
 
     initAuth();
