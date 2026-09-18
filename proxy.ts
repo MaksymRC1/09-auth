@@ -3,6 +3,8 @@ import type { NextRequest } from 'next/server';
 import { checkSession } from '@/lib/api/serverApi';
 import { parseSetCookie } from 'cookie';
 
+import { cookies } from 'next/headers';
+
 const privateRoutes = ['/profile', '/profile/edit', '/notes'];
 const publicRoutes = ['/sign-in', '/sign-up'];
 
@@ -16,8 +18,9 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const accessToken = request.cookies.get('accessToken')?.value;
-  const refreshToken = request.cookies.get('refreshToken')?.value;
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
 
   let isAuthenticated = false;
   let response = NextResponse.next();
