@@ -1,17 +1,13 @@
 "use client";
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { checkSession, getMe } from '@/lib/api/clientApi';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { setUser, clearIsAuthenticated } = useAuthStore();
-  const router = useRouter();
 
   useEffect(() => {
-    router.refresh();
-    
     const initAuth = async () => {
       try {
         const response = await checkSession();
@@ -27,7 +23,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     initAuth();
-  }, [setUser, clearIsAuthenticated, router]);
+  }, [setUser, clearIsAuthenticated]);
 
   return <>{children}</>;
 };
